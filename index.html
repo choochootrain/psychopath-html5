@@ -7,8 +7,14 @@
       enchant();
       window.onload = function() {
         var game = new Game(600,600);
+        game.preload('rainbow.png');
         game.onload = function() {
-          alert("you win");
+          var scene = new Scene();
+          game.pushScene(scene);
+
+          var sprite = new Sprite(32, 32);
+          sprite.image = game.assets['rainbow.png'];
+          scene.addChild(sprite);
         };
         game.start();
       }
