@@ -6,8 +6,10 @@
     <script>
       enchant();
       window.onload = function() {
-        var game = new Game(600,600);
-        game.preload('tiles.png');
+        game = new Game(600,600);
+        player = new Sprite(32, 32);
+
+        game.preload('tiles.png', 'player.png');
         game.onload = function() {
           var scene = new Scene();
           game.pushScene(scene);
@@ -34,7 +36,33 @@
           ];
           map.loadData(baseMap);
           scene.addChild(map);
+
+
+          player.image = game.assets['player.png'];
+          scene.addChild(player);
         };
+
+        game.addEventListener('leftbuttonup', function() {
+          move(player, -32, 0);
+        });
+
+        game.addEventListener('rightbuttonup', function() {
+          move(player, 32, 0);
+        });
+
+         game.addEventListener('upbuttonup', function() {
+          move(player, 0, -32);
+        });
+
+         game.addEventListener('downbuttonup', function() {
+          move(player, 0, 32);
+        });
+
+        var move = function(sprite, xinc, yinc) {
+          sprite.x += xinc;
+          sprite.y += yinc;
+        };
+
         game.start();
       }
     </script>
