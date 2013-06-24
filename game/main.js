@@ -70,6 +70,14 @@ var newPathMarker = function(count, x, y) {
     return path_count;
 };
 
+var checkWin = function(count, sprite) {
+  if (count == leveldata.steps && sprite.x/32 == leveldata.end[0] && sprite.y/32 == leveldata.end[1]) {
+    alert('win');
+    return true;
+  } else
+    return false;
+}
+
 enchant();
 window.onload = function() {
   game = new Game(600, 600);
@@ -198,7 +206,8 @@ window.onload = function() {
 
     count++;
 
-    path.addChild(newPathMarker(count, old_x, old_y));
+    if (!checkWin(count, sprite))
+      path.addChild(newPathMarker(count, old_x, old_y));
  };
 
   game.addEventListener('enterframe', function() {
