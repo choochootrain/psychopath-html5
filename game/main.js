@@ -233,5 +233,20 @@ window.onload = function() {
     move(player, 1, 0);
   });
 
+  document.addEventListener('keyup', function(e) {
+    var code = e.keyCode;
+
+    if (code == 72)
+      move(player, -1, 0);
+    else if (code == 74)
+      move(player, 0, 1);
+    else if (code == 75)
+      move(player, 0, -1);
+    else if (code == 76)
+      move(player, 1, 0);
+    else
+      return false;
+  });
+
   game.start();
 };
