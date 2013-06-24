@@ -102,19 +102,19 @@
         };
 
         game.addEventListener('leftbuttondown', function() {
-          move(player, -32, 0);
+          move(player, -1, 0);
         });
 
         game.addEventListener('rightbuttondown', function() {
-          move(player, 32, 0);
+          move(player, 1, 0);
         });
 
          game.addEventListener('upbuttondown', function() {
-          move(player, 0, -32);
+          move(player, 0, -1);
         });
 
          game.addEventListener('downbuttondown', function() {
-          move(player, 0, 32);
+          move(player, 0, 1);
         });
 
         var inBounds = function(x, y) {
@@ -122,12 +122,12 @@
         }
 
         var move = function(sprite, xinc, yinc) {
-          var nx = sprite.x + xinc;
-          var ny = sprite.y + yinc;
+          var nx = sprite.x + 32*xinc;
+          var ny = sprite.y + 32*yinc;
 
           if (!map.hitTest(nx, ny) && inBounds(nx, ny)) {
-            sprite.x += xinc;
-            sprite.y += yinc;
+            sprite.x = nx;
+            sprite.y = ny;
           }
         };
 
