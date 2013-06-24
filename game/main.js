@@ -50,6 +50,26 @@ var addBlocks = function(blocks, scene) {
   }
 };
 
+var newPathMarker = function(count, x, y) {
+    var path_count = new Sprite(32, 32);
+    var tmp = new Surface(32, 32);
+    tmp.context.fillStyle = ['#9a0', '#781', '#672', '#562'][Math.floor(Math.random()*4)];
+    tmp.context.fillRect(0,0,32,32);
+    tmp.context.strokeStyle = '#220';
+    tmp.context.lineWidth = 3;
+    tmp.context.strokeRect(0,0,32,32);
+
+    tmp.context.fillStyle = '#EEE';
+    tmp.context.font = 'bold 12pt Verdana';
+    var hspace = (count >= 10 ? (count >= 100 ? 0 : 5) : 9);
+    tmp.context.fillText(''+count, hspace, 23);
+
+    path_count.image = tmp;
+    path_count.x = x;
+    path_count.y = y;
+    return path_count;
+};
+
 enchant();
 window.onload = function() {
   game = new Game(600, 600);
@@ -60,6 +80,9 @@ window.onload = function() {
   player_fg = new Sprite(32, 32);
 
   scene = new Scene();
+  path = new Group();
+  count = 0;
+
   mapData = leveldata.data;
   height = leveldata.data.length;
   width = leveldata.data[0].length;
@@ -77,6 +100,8 @@ window.onload = function() {
     map.loadData(baseMap);
     map.collisionData = generateCollisionData(baseMap);
     scene.addChild(map);
+
+    scene.addChild(path);
 
     addBlocks(blocks, scene);
 
@@ -120,6 +145,8 @@ window.onload = function() {
   }
 
   var move = function(sprite, xinc, yinc) {
+    var old_x = sprite.x;
+    var old_y = sprite.y;
     var y = sprite.y/32;
     var x = sprite.x/32;
     var nx = x + xinc;
@@ -168,13 +195,21 @@ window.onload = function() {
     sprite.y = 32*ny;
     player_fg.x = -20*xinc;
     player_fg.y = -20*yinc;
-  };
+
+    count++;
+
+    path.addChild(newPathMarker(count, old_x, old_y));
+ };
 
   game.addEventListener('enterframe', function() {
     player_fg.rotate(30);
     player_fg.x = player_fg.x * 0.7;
     player_fg.y = player_fg.y * 0.7;
     goal.rotate(15);
+  });
+
+  game.addEventListener('keypress', function() {
+    alert(e.keyCode);
   });
 
   game.start();
