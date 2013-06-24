@@ -24,12 +24,12 @@
         return arr;
       };
 
-      var extractMapBlocks = function(map) {
+      var extractMapBlocks = function(map, blocks) {
         for (var i = 0; i < map.length; i++) {
           var row = map[i];
           for (var j = 0; j < row.length; j++) {
             if (row[j] == 2) {
-              blocks[i][j] = newBlock(i, j);
+              blocks[j][i] = newBlock(j, i);
               row[j] = 0;
             }
           }
@@ -45,7 +45,7 @@
         return block;
       }
 
-      var addBlocks = function(blocks) {
+      var addBlocks = function(blocks, scene) {
         for (var i = 0; i < blocks.length; i++) {
           var row = blocks[i];
           for (var j = 0; j < row.length; j++) {
@@ -63,37 +63,38 @@
 
         player = new Sprite(32, 32);
         scene = new Scene();
+        scene.backgroundColor = '#222';
+        mapData = [
+              [  0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],
+              [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1],
+              [  0,  2,  0,  0,  1,  0,  0,  0,  0,  1,  0,  1,  0,  2,  1,  1],
+              [  0,  0,  0,  0,  0,  1,  0,  2,  0,  0,  1,  0,  0,  0,  0,  1],
+              [  0,  2,  0,  2,  0,  0,  0,  0,  0,  1,  0,  1,  1,  0,  2,  0],
+              [  0,  2,  0,  0,  0,  0,  0,  1,  0,  0,  0,  2,  0,  0,  0,  0],
+              [  0,  0,  2,  0,  2,  0,  0,  0,  2,  1,  2,  0,  0,  1,  0,  0],
+              [  0,  2,  0,  2,  0,  0,  2,  0,  2,  0,  2,  0,  0,  0,  1,  0],
+              [  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  0,  0,  1,  0,  0,  0],
+              [  0,  0,  0,  2,  0,  2,  0,  0,  1,  0,  2,  1,  0,  0,  2,  0],
+              [  0,  0,  0,  2,  0,  0,  1,  0,  0,  0,  2,  0,  0,  1,  0,  0],
+              [  1,  2,  0,  0,  0,  2,  0,  2,  0,  0,  0,  0,  2,  0,  0,  0],
+              [  1,  2,  0,  0,  2,  0,  0,  0,  1,  1,  0,  1,  0,  0,  0,  1],
+              [  1,  2,  0,  2,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1],
+              [  1,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1],
+              [  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],
+          ];
         map = new Map(32,32);
         blocks = new2dArray(16, 16);
         game.onload = function() {
           game.pushScene(scene);
 
-          baseMap = extractMapBlocks([
-            [  0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],
-            [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1],
-            [  0,  2,  0,  0,  1,  0,  0,  0,  0,  1,  0,  1,  0,  2,  1,  1],
-            [  0,  0,  0,  0,  0,  1,  0,  2,  0,  0,  1,  0,  0,  0,  0,  1],
-            [  0,  2,  0,  2,  0,  0,  0,  0,  0,  1,  0,  1,  1,  0,  2,  0],
-            [  0,  2,  0,  0,  0,  0,  0,  1,  0,  0,  0,  2,  0,  0,  0,  0],
-            [  0,  0,  2,  0,  2,  0,  0,  0,  2,  1,  2,  0,  0,  1,  0,  0],
-            [  0,  2,  0,  2,  0,  0,  2,  0,  2,  0,  2,  0,  0,  0,  1,  0],
-            [  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  0,  0,  1,  0,  0,  0],
-            [  0,  0,  0,  2,  0,  2,  0,  0,  1,  0,  2,  1,  0,  0,  2,  0],
-            [  0,  0,  0,  2,  0,  0,  1,  0,  0,  0,  2,  0,  0,  1,  0,  0],
-            [  1,  2,  0,  0,  0,  2,  0,  2,  0,  0,  0,  0,  2,  0,  0,  0],
-            [  1,  2,  0,  0,  2,  0,  0,  0,  1,  1,  0,  1,  0,  0,  0,  1],
-            [  1,  2,  0,  2,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1],
-            [  1,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1],
-            [  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],
-          ]);
-
+          baseMap = extractMapBlocks(mapData, blocks);
 
           map.image = game.assets['tiles.png'];
           map.loadData(baseMap);
           map.collisionData = generateCollisionData(baseMap);
           scene.addChild(map);
 
-          addBlocks(blocks);
+          addBlocks(blocks, scene);
 
           player.image = game.assets['player.png'];
           player.x = 64;
@@ -109,26 +110,69 @@
           move(player, 1, 0);
         });
 
-         game.addEventListener('upbuttondown', function() {
+        game.addEventListener('upbuttondown', function() {
           move(player, 0, -1);
         });
 
-         game.addEventListener('downbuttondown', function() {
+        game.addEventListener('downbuttondown', function() {
           move(player, 0, 1);
         });
 
         var inBounds = function(x, y) {
-          return x >= 0 && x <= 15*32 && y >= 0 && y <= 15*32;
+          return x >= 0 && x <= 15 && y >= 0 && y <= 15;
+        }
+
+        var blocked = function(x, y) {
+          return mapData[y][x] == 1;
         }
 
         var move = function(sprite, xinc, yinc) {
-          var nx = sprite.x + 32*xinc;
-          var ny = sprite.y + 32*yinc;
+          var y = sprite.y/32;
+          var x = sprite.x/32;
+          var nx = x + xinc;
+          var ny = y + yinc;
 
-          if (!map.hitTest(nx, ny) && inBounds(nx, ny)) {
-            sprite.x = nx;
-            sprite.y = ny;
+          //out of bounds
+          if (!inBounds(nx, ny)) {
+            console.log('out of bounds');
+            return;
           }
+
+          //wall
+          if (blocked(nx, ny)) {
+            console.log('collision ' + x + ' ' + y);
+            return;
+          }
+
+          //block
+          if (blocks[nx][ny]) {
+            var nx2 = nx + xinc;
+            var ny2 = ny + yinc;
+
+            if (!inBounds(nx2, ny2)) {
+              console.log('block out of bounds');
+              return;
+            }
+
+            if (blocked(nx2, ny2)) {
+              console.log('block collision');
+              return;
+            }
+
+            if (blocks[nx2][ny2]) {
+              console.log('double block collision');
+              return;
+            }
+
+            var block = blocks[nx][ny];
+            blocks[nx][ny] = undefined;
+            blocks[nx2][ny2] = block;
+            block.x = 32*nx2;
+            block.y = 32*ny2;
+          }
+
+          sprite.x = 32*nx;
+          sprite.y = 32*ny;
         };
 
         game.start();
