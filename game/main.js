@@ -217,8 +217,20 @@ window.onload = function() {
     goal.rotate(15);
   });
 
-  game.addEventListener('keypress', function() {
-    alert(e.keyCode);
+  Hammer(document).on("swipeup", function() {
+    move(player, 0, -1);
+  });
+
+  Hammer(document).on("swipedown", function() {
+    move(player, 0, 1);
+  });
+
+  Hammer(document).on("swipeleft", function() {
+    move(player, -1, 0);
+  });
+
+  Hammer(document).on("swiperight", function() {
+    move(player, 1, 0);
   });
 
   game.start();
