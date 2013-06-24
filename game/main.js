@@ -53,9 +53,12 @@ var addBlocks = function(blocks, scene) {
 enchant();
 window.onload = function() {
   game = new Game(600, 600);
-  game.preload('game/tiles.png', 'game/player.png', 'game/block.png');
+  game.preload('game/tiles.png', 'game/player_0.png', 'game/player_1.png', 'game/block.png');
 
-  player = new Sprite(32, 32);
+  player = new Group();
+  player_bg = new Sprite(32, 32);
+  player_fg = new Sprite(32, 32);
+
   scene = new Scene();
   mapData = leveldata.data;
   height = leveldata.data.length;
@@ -75,7 +78,11 @@ window.onload = function() {
 
     addBlocks(blocks, scene);
 
-    player.image = game.assets['game/player.png'];
+    player_bg.image = game.assets['game/player_0.png'];
+    player_fg.image = game.assets['game/player_1.png'];
+    player.addChild(player_bg);
+    player.addChild(player_fg);
+
     player.x = 32*leveldata.start[0];
     player.y = 32*leveldata.start[1];
     scene.addChild(player);
@@ -152,7 +159,15 @@ window.onload = function() {
 
     sprite.x = 32*nx;
     sprite.y = 32*ny;
+    player_fg.x = -20*xinc;
+    player_fg.y = -20*yinc;
   };
+
+  game.addEventListener('enterframe', function() {
+    player_fg.rotate(30);
+    player_fg.x = player_fg.x * 0.7;
+    player_fg.y = player_fg.y * 0.7;
+  });
 
   game.start();
 };
