@@ -80,7 +80,7 @@ var checkWin = function(count, sprite) {
 
 enchant();
 window.onload = function() {
-  game = new Game(600, 600);
+  game = new Game(500, 500);
   game.preload('game/tiles.png', 'game/player_0.png', 'game/player_1.png', 'game/goal.png', 'game/block.png');
 
   player = new Group();
